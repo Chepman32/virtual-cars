@@ -40,12 +40,12 @@ export default function App() {
         query: createUser,
         variables: { input: data }
       }) : message.warning("User already exists");
+      isNewUser && setPlayerInfo(data)
+      isNewUser && setMoney(data.money)
+      setCreatingUser(false);
     }, 1000)
-    setCreatingUser(false);
-    setPlayerInfo(data)
-    setMoney(data.money)
     message.success("User successfully created");
-  }, [isNewUser])
+  }, [isNewUser, money])
 
   const currentAuthenticatedUser = useCallback(async () => {
     try {
@@ -58,7 +58,7 @@ export default function App() {
       const isNewUser = !playersList.some((pl) => pl.nickname === username)
       setIsNewUser(isNewUser)
       setTimeout(() => {
-        createNewPlayer(username)
+        !playerInfo && createNewPlayer(username)
       }, 1000)
       console.log("playersList", playersList)
       console.log("userId", userId)
