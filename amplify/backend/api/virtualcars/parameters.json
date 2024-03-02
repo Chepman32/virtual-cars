@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "virtualcars",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2024-03-01T12:47:36.158Z"
+}

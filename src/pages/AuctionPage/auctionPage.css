@@ -1,0 +1,168 @@
+.auctionPage {
+  display: flex;
+  padding: 20px;
+  background: #d6d8a3;
+}
+.auctionPageItem {
+  width: 100px;
+  height: 10px;
+  display: flex;
+  margin: 10px 0;
+  background: #fff;
+}
+.auctionDetails {
+  max-height: 85vh;
+    height: 100%;
+    padding: 20px;
+    background: url(https://img.freepik.com/free-photo/vivid-blurred-colorful-wallpaper-background_58702-3883.jpg?size=626&ext=jpg&ga=GA1.1.632798143.1705968000&semt=ais);
+    background-size: cover;
+  }
+
+  .auctionDetails * {
+    background: transparent;
+  }
+
+  .auction-items-container {
+    max-height: 84vh;
+    overflow-y: auto;
+  }
+  
+  .auctionDetails_image {
+    max-height: 40vh;
+  }
+  
+  .auctionDetails h3 {
+    font-size: 2.5vh;
+  }
+
+  .auctionPageItem .hammer {
+    width: 1vw;
+    height: 1vw;
+  }
+
+  .auctionPageItem .subText {
+    font-size: 1.4vh;
+  }
+
+  .auctionPageItem .price {
+    font-size: 1.6vh;
+    font-weight: 600;
+  }
+
+  .auctionPageItem .carName {
+    font-size: 2vh;
+    font-weight: bold;
+  }
+
+  .auctionDetails .subText {
+    font-size: 1.5vh;
+    color: #ffffff;
+  }
+
+  .auctionDetails .price {
+    font-size: 2vh;
+    font-weight: bold;
+  }
+
+  .auctionDetails .bid {
+    color: #ffffff;
+  }
+
+  .auctionDetails .buy {
+    color: #f8eb01;
+  }
+
+  .auctionActionsModal__row {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2px;
+    background: #528a4c;
+    font-size: 2vh;
+    font-weight: 600;
+  }
+
+  /* auctionPage.css */
+
+.auctionHub__card:hover {
+  border: 2px solid red;
+}
+
+
+  .auctionHub__cardText {
+    font-size: 6vh;
+    color: #fff;
+  }
+
+  
+.auctionDetails {
+  height: 100%;
+  padding: 20px;
+  background: url(https://img.freepik.com/free-photo/vivid-blurred-colorful-wallpaper-background_58702-3883.jpg?size=626&ext=jpg&ga=GA1.1.632798143.1705968000&semt=ais);
+  background-size: cover;
+  overflow: hidden; /* hide any content that overflows */
+}
+
+.auctionDetails * {
+  background: transparent;
+}
+
+.auctionDetails_image {
+  width: 100%;
+  height: 40vh; /* Set a fixed height or adjust as needed */
+  object-fit: contain; /* Ensure the image covers the container */
+}
+
+.auctionDetails h3 {
+  font-size: 2.5vh;
+}
+
+.auctionDetails .subText {
+  font-size: 1.5vh;
+  color: #ffffff;
+}
+
+.auctionDetails .price {
+  font-size: 2vh;
+  font-weight: bold;
+}
+
+.auctionDetails .bid {
+  color: #ffffff;
+}
+
+.auctionDetails .buy {
+  color: #f8eb01;
+}
+
+.auctionDetails .time {
+  font-size: 25px;
+  font-weight: 600;
+  color: #f8eb01;
+}
+
+/* styles.css */
+
+/* Hide the default scrollbar */
+.auction-items-container {
+  overflow-y: auto; /* Change from overflow: hidden; to overflow-y: auto; */
+}
+
+/* Create a custom scrollbar */
+.auction-items-container::-webkit-scrollbar {
+  width: 12px; /* Adjust the width as needed */
+}
+
+.auction-items-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.auction-items-container::-webkit-scrollbar-thumb {
+  background: #e77c7c;
+  border-radius: 6px; /* Make the scrollbar thumb rounded */
+}
+
+.auction-items-container::-webkit-scrollbar-thumb:hover {
+  background: #e40303;
+}

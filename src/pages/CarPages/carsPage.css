@@ -1,0 +1,58 @@
+.carsPage__item {
+    width: 20vw; /* Adjust the width to desired value */
+    height: 20vw; /* Set the height to match the width */
+    display: flex;
+    padding: .3vh;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: .5vw;
+    margin-bottom: 20px; 
+    border: 2px solid #760;
+    border-radius: 10px;
+}
+
+.carsPage__item_selected {
+    border: 4px solid rgb(217, 81, 81);
+}
+
+.carsPage__model {
+    font-size: 2vh;
+    font-weight: 500;
+}
+
+.carsPage__year {
+    font-size: 2vh;
+    font-weight: 100;
+}
+
+.carsPage__type {
+    width: 100% !important;
+    padding: .3vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #397aab;
+    border-radius: 2px;
+}
+
+.carsPage__type p {
+    font-size: 1.5vh;
+    font-weight: 600;
+    color: #fff;
+}
+
+.carDetailsModal {
+    width: 60%;
+}
+
+.carDetailsModal__row {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2px;
+    background: #528a4c;
+    font-size: 2vh;
+    font-weight: 600;
+}

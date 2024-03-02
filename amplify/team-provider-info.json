@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-virtualcars-dev-142931-authRole",
+      "UnauthRoleArn": "arn:aws:iam::162721372843:role/amplify-virtualcars-dev-142931-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::162721372843:role/amplify-virtualcars-dev-142931-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
+      "UnauthRoleName": "amplify-virtualcars-dev-142931-unauthRole",
+      "StackName": "amplify-virtualcars-dev-142931",
+      "StackId": "arn:aws:cloudformation:us-east-2:162721372843:stack/amplify-virtualcars-dev-142931/fbaf93d0-d7be-11ee-b89d-06f0de2397f7",
+      "AmplifyAppId": "d2snuxs4quclku"
+    },
+    "categories": {
+      "auth": {
+        "virtualcars631d26f7": {}
+      },
+      "api": {
+        "virtualcars": {}
+      }
+    }
+  }
+}
