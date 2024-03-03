@@ -15,6 +15,7 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      email
       createdAt
       updatedAt
       __typename
@@ -35,6 +36,7 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      email
       createdAt
       updatedAt
       __typename
@@ -55,6 +57,7 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      email
       createdAt
       updatedAt
       __typename
@@ -81,6 +84,7 @@ export const onCreateAuction = /* GraphQL */ `
         nextToken
         __typename
       }
+      bidded
       createdAt
       updatedAt
       __typename
@@ -107,6 +111,7 @@ export const onUpdateAuction = /* GraphQL */ `
         nextToken
         __typename
       }
+      bidded
       createdAt
       updatedAt
       __typename
@@ -133,6 +138,7 @@ export const onDeleteAuction = /* GraphQL */ `
         nextToken
         __typename
       }
+      bidded
       createdAt
       updatedAt
       __typename
@@ -206,6 +212,7 @@ export const onCreateUserCar = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -237,6 +244,7 @@ export const onUpdateUserCar = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -268,6 +276,7 @@ export const onDeleteUserCar = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -301,6 +310,7 @@ export const onCreateAuctionUser = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -319,6 +329,7 @@ export const onCreateAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
+        bidded
         createdAt
         updatedAt
         __typename
@@ -341,6 +352,7 @@ export const onUpdateAuctionUser = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -359,6 +371,7 @@ export const onUpdateAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
+        bidded
         createdAt
         updatedAt
         __typename
@@ -381,6 +394,7 @@ export const onDeleteAuctionUser = /* GraphQL */ `
         id
         nickname
         money
+        email
         createdAt
         updatedAt
         __typename
@@ -399,6 +413,7 @@ export const onDeleteAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
+        bidded
         createdAt
         updatedAt
         __typename

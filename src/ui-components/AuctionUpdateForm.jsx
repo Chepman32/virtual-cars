@@ -6,12 +6,178 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  ScrollView,
+  Text,
+  TextField,
+  useTheme,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getAuction } from "../graphql/queries";
 import { updateAuction } from "../graphql/mutations";
 const client = generateClient();
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  runValidationTasks,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    const { hasError } = runValidationTasks();
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button size="small" variation="link" onClick={addItem}>
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function AuctionUpdateForm(props) {
   const {
     id: idProp,
@@ -37,6 +203,7 @@ export default function AuctionUpdateForm(props) {
     buy: "",
     minBid: "",
     type: "",
+    bidded: [],
   };
   const [make, setMake] = React.useState(initialValues.make);
   const [model, setModel] = React.useState(initialValues.model);
@@ -52,6 +219,7 @@ export default function AuctionUpdateForm(props) {
   const [buy, setBuy] = React.useState(initialValues.buy);
   const [minBid, setMinBid] = React.useState(initialValues.minBid);
   const [type, setType] = React.useState(initialValues.type);
+  const [bidded, setBidded] = React.useState(initialValues.bidded);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = auctionRecord
@@ -69,6 +237,8 @@ export default function AuctionUpdateForm(props) {
     setBuy(cleanValues.buy);
     setMinBid(cleanValues.minBid);
     setType(cleanValues.type);
+    setBidded(cleanValues.bidded ?? []);
+    setCurrentBiddedValue("");
     setErrors({});
   };
   const [auctionRecord, setAuctionRecord] = React.useState(auctionModelProp);
@@ -87,6 +257,8 @@ export default function AuctionUpdateForm(props) {
     queryData();
   }, [idProp, auctionModelProp]);
   React.useEffect(resetStateValues, [auctionRecord]);
+  const [currentBiddedValue, setCurrentBiddedValue] = React.useState("");
+  const biddedRef = React.createRef();
   const validations = {
     make: [{ type: "Required" }],
     model: [{ type: "Required" }],
@@ -100,6 +272,7 @@ export default function AuctionUpdateForm(props) {
     buy: [{ type: "Required" }],
     minBid: [{ type: "Required" }],
     type: [{ type: "Required" }],
+    bidded: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -139,6 +312,7 @@ export default function AuctionUpdateForm(props) {
           buy,
           minBid,
           type,
+          bidded: bidded ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -211,6 +385,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.make ?? value;
@@ -246,6 +421,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.model ?? value;
@@ -285,6 +461,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.year ?? value;
@@ -320,6 +497,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.carId ?? value;
@@ -359,6 +537,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.currentBid ?? value;
@@ -394,6 +573,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.endTime ?? value;
@@ -429,6 +609,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -464,6 +645,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.lastBidPlayer ?? value;
@@ -499,6 +681,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.player ?? value;
@@ -538,6 +721,7 @@ export default function AuctionUpdateForm(props) {
               buy: value,
               minBid,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.buy ?? value;
@@ -577,6 +761,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid: value,
               type,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.minBid ?? value;
@@ -612,6 +797,7 @@ export default function AuctionUpdateForm(props) {
               buy,
               minBid,
               type: value,
+              bidded,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -626,6 +812,63 @@ export default function AuctionUpdateForm(props) {
         hasError={errors.type?.hasError}
         {...getOverrideProps(overrides, "type")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              make,
+              model,
+              year,
+              carId,
+              currentBid,
+              endTime,
+              status,
+              lastBidPlayer,
+              player,
+              buy,
+              minBid,
+              type,
+              bidded: values,
+            };
+            const result = onChange(modelFields);
+            values = result?.bidded ?? values;
+          }
+          setBidded(values);
+          setCurrentBiddedValue("");
+        }}
+        currentFieldValue={currentBiddedValue}
+        label={"Bidded"}
+        items={bidded}
+        hasError={errors?.bidded?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("bidded", currentBiddedValue)
+        }
+        errorMessage={errors?.bidded?.errorMessage}
+        setFieldValue={setCurrentBiddedValue}
+        inputFieldRef={biddedRef}
+        defaultFieldValue={""}
+      >
+        <TextField
+          label="Bidded"
+          isRequired={false}
+          isReadOnly={false}
+          value={currentBiddedValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.bidded?.hasError) {
+              runValidationTasks("bidded", value);
+            }
+            setCurrentBiddedValue(value);
+          }}
+          onBlur={() => runValidationTasks("bidded", currentBiddedValue)}
+          errorMessage={errors.bidded?.errorMessage}
+          hasError={errors.bidded?.hasError}
+          ref={biddedRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "bidded")}
+        ></TextField>
+      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

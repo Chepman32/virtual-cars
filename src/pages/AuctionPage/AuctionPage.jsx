@@ -78,10 +78,8 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
       }
       setMoney(auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue);
   
-      // Add the user to the bidderAuctions list
-      const userId = playerInfo.id;
-      const auctionId = auction.id;
-      await addUserToAuction(userId, auctionId);
+      // Add the user's nickname to the bidded list
+      const updatedBiddedList = auction.bidded ? [...auction.bidded, playerInfo.nickname] : [playerInfo.nickname];
   
       const updatedAuction = {
         id: auction.id,
@@ -93,6 +91,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
         endTime: auction.endTime,
         lastBidPlayer: playerInfo.nickname,
         status: increasedBidValue < auction.buy ? "active" : "finished",
+        bidded: updatedBiddedList, // Add user's nickname to the bidded list
       };
   
       await client.graphql({
@@ -121,13 +120,11 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     }
   };
   
-  
   const buyItem = async () => {
     try {
       setLoadingBuy(true);
-  
+      const updatedBiddedList = selectedAuction.bidded ? [...selectedAuction.bidded, playerInfo.nickname] : [playerInfo.nickname];
       const increasedBidValue = Math.round(selectedAuction.currentBid * 1.1) || Math.round(selectedAuction.minBid * 1.1);
-  
       // Update the auction item to reflect the purchase
       const updatedAuctionInput = {
         id: selectedAuction.id,
@@ -138,24 +135,18 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
         currentBid: selectedAuction.buy, // Set currentBid to the buy value
         endTime: selectedAuction.endTime,
         status: "Finished",
+        bidded: updatedBiddedList,
         lastBidPlayer: playerInfo.nickname,
         player: selectedAuction.player,
         buy: selectedAuction.buy, // Set buy to the same buy value
         minBid: selectedAuction.minBid,
         type: selectedAuction.type
       };
-  
       // Fetch auction user
       const auctionUser = await fetchAuctionUser(selectedAuction.id); // Corrected here
       console.log("auctionUser", auctionUser)
-      // Calculate the money to be transferred
-      const bidDifference =
-        selectedAuction.lastBidPlayer === playerInfo.nickname
-        ? auctionUser.money - (selectedAuction.buy - selectedAuction.currentBid)
-        : auctionUser.money - selectedAuction.buy;
-  
       // Decrease the buyer's money
-      setMoney(bidDifference);
+      setMoney(money - selectedAuction.buy); // Corrected here
   
       // Increase the seller's money
       await client.graphql({
@@ -175,7 +166,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
           variables: {
             input: {
               id: playerInfo.id,
-              money: bidDifference,
+              money: money - selectedAuction.buy,
             },
           },
         }),
@@ -198,10 +189,6 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     }
   };
   
-  
-
-  
-
   const listener = async (data) => {
     const { nickname } = data?.payload?.data;
     setPlayer(nickname);
