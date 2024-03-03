@@ -19,6 +19,11 @@ export const createUser = /* GraphQL */ `
         __typename
       }
       email
+      bidded {
+        auctionId
+        bidValue
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -26,28 +31,33 @@ export const createUser = /* GraphQL */ `
   }
 `;
 export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      id
-      nickname
-      money
-      cars {
-        nextToken
-        __typename
-      }
-      auctions {
-        nextToken
-        __typename
-      }
-      email
-      createdAt
-      updatedAt
+mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  updateUser(input: $input, condition: $condition) {
+    id
+    nickname
+    money
+    cars {
+      nextToken
       __typename
     }
+    auctions {
+      nextToken
+      __typename
+    }
+    email
+    bidded {
+      auctionId
+      bidValue
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
   }
+}
 `;
 export const deleteUser = /* GraphQL */ `
   mutation DeleteUser(
@@ -67,6 +77,11 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       email
+      bidded {
+        auctionId
+        bidValue
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -96,7 +111,6 @@ export const createAuction = /* GraphQL */ `
         nextToken
         __typename
       }
-      bidded
       createdAt
       updatedAt
       __typename
@@ -126,7 +140,6 @@ export const updateAuction = /* GraphQL */ `
         nextToken
         __typename
       }
-      bidded
       createdAt
       updatedAt
       __typename
@@ -156,7 +169,6 @@ export const deleteAuction = /* GraphQL */ `
         nextToken
         __typename
       }
-      bidded
       createdAt
       updatedAt
       __typename
@@ -366,7 +378,6 @@ export const createAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
-        bidded
         createdAt
         updatedAt
         __typename
@@ -409,7 +420,6 @@ export const updateAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
-        bidded
         createdAt
         updatedAt
         __typename
@@ -452,7 +462,6 @@ export const deleteAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
-        bidded
         createdAt
         updatedAt
         __typename

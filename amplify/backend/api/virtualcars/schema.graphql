@@ -1,13 +1,14 @@
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   nickname: String
   money: Int
   cars: [Car] @manyToMany(relationName: "UserCar")
   auctions: [Auction] @manyToMany(relationName: "AuctionUser")
   email: String
+  bidded: [BidInfo] # New field for storing bidded auction information
 }
 
-type Auction @model @auth(rules: [{allow: public, operations: [read, create, update]}]) {
+type Auction @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
   id: ID!
   make: String!
   model: String!
@@ -22,7 +23,11 @@ type Auction @model @auth(rules: [{allow: public, operations: [read, create, upd
   minBid: Int!
   type: String!
   user: [User] @manyToMany(relationName: "AuctionUser")
-  bidded: [String]
+}
+
+type BidInfo {
+  auctionId: ID!
+  bidValue: Int!
 }
 
 type Car @model @auth(rules: [{allow: public}]) {

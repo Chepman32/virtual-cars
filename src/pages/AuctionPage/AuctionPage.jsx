@@ -72,15 +72,36 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     try {
       setLoadingBid(true);
       let increasedBidValue = Math.floor(auction.currentBid * 1.1) || Math.round(auction.minBid * 1.1);
+      
       if (increasedBidValue >= auction.buy) {
-        buyItem()
-        return
+        buyItem();
+        return;
       }
+      
       setMoney(auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue);
   
-      // Add the user's nickname to the bidded list
-      const updatedBiddedList = auction.bidded ? [...auction.bidded, playerInfo.nickname] : [playerInfo.nickname];
+      // Create a bid object with auction ID and bid value
+      const bidObject = {
+        auctionId: auction.id,
+        bidValue: increasedBidValue,
+      };
   
+      // Update the user's bidded list
+      const updatedUser = {
+        id: playerInfo.id,
+        bidded: auction.bidded ? [...auction.bidded, bidObject] : [bidObject],
+        money: auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue,
+      };
+  
+      // Update the user data
+      await client.graphql({
+        query: mutations.updateUser,
+        variables: {
+          input: updatedUser,
+        },
+      });
+  
+      // Update the auction data
       const updatedAuction = {
         id: auction.id,
         carName: auction.carName,
@@ -91,22 +112,11 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
         endTime: auction.endTime,
         lastBidPlayer: playerInfo.nickname,
         status: increasedBidValue < auction.buy ? "active" : "finished",
-        bidded: updatedBiddedList, // Add user's nickname to the bidded list
       };
   
       await client.graphql({
         query: mutations.updateAuction,
         variables: { input: updatedAuction },
-      });
-  
-      await client.graphql({
-        query: mutations.updateUser,
-        variables: {
-          input: {
-            id: playerInfo.id,
-            money: auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue
-          }
-        },
       });
   
       handleCancel();
@@ -116,7 +126,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
       console.error(error);
     } finally {
       setLoadingBid(false);
-      setAuctionActionsVisible(false)
+      setAuctionActionsVisible(false);
     }
   };
   

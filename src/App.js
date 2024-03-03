@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import AuctionPage from "./pages/AuctionPage/AuctionPage";
-import CustomHeader from "./components/CustomHeader";  
+import CustomHeader from "./components/CustomHeader/CustomHeader";  
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "./aws-exports";
@@ -41,7 +41,7 @@ export default function App() {
         variables: { input: data }
       }) : message.warning("User already exists");
       setCreatingUser(false);
-    }, 1000)
+    })
     message.success("User successfully created");
   }, [isNewUser])
 
@@ -86,6 +86,7 @@ export default function App() {
                     <CustomHeader  
                       money={money}
                       username={playerInfo.nickname}
+                      signOut={signOut}
                     />
                   ) : null}
                   {

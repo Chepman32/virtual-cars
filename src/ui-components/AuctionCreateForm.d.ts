@@ -34,7 +34,6 @@ export declare type AuctionCreateFormInputValues = {
     buy?: number;
     minBid?: number;
     type?: string;
-    bidded?: string[];
 };
 export declare type AuctionCreateFormValidationValues = {
     make?: ValidationFunction<string>;
@@ -49,7 +48,6 @@ export declare type AuctionCreateFormValidationValues = {
     buy?: ValidationFunction<number>;
     minBid?: ValidationFunction<number>;
     type?: ValidationFunction<string>;
-    bidded?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AuctionCreateFormOverridesProps = {
@@ -66,7 +64,6 @@ export declare type AuctionCreateFormOverridesProps = {
     buy?: PrimitiveOverrideProps<TextFieldProps>;
     minBid?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
-    bidded?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AuctionCreateFormProps = React.PropsWithChildren<{
     overrides?: AuctionCreateFormOverridesProps | undefined | null;

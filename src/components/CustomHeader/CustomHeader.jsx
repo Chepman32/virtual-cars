@@ -1,14 +1,20 @@
 import React from 'react';
-import { Menu, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Button, Menu, Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import "./styles.css"
 
 const { Text } = Typography;
 
-const CustomHeader = ({ username, money }) => {
+const CustomHeader = ({ username, money, signOut }) => {
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    navigate("/")
+    signOut()
+  }
   return (
     <Menu theme="dark" mode="horizontal" style={{ width: "100%", lineHeight: '64px', display: 'flex' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      <div style={{ width: "100%", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: "center" }}>
           <Menu.Item key="carsStore" style={{ backgroundColor: 'transparent' }}>
             <Link to="/carsStore">Cars Store</Link>
           </Menu.Item>
@@ -24,6 +30,7 @@ const CustomHeader = ({ username, money }) => {
         <Text style={{ marginRight: 15 }} type="warning">{`$${money}`}</Text>
         <Text style={{color: "#fff"}} >{username}</Text>
       </Menu.Item>
+      <Button onClick={handleSignOut}>Sign out</Button>
     </Menu>
   );
 };

@@ -16,6 +16,11 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       email
+      bidded {
+        auctionId
+        bidValue
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -63,7 +68,6 @@ export const getAuction = /* GraphQL */ `
         nextToken
         __typename
       }
-      bidded
       createdAt
       updatedAt
       __typename
@@ -91,7 +95,6 @@ export const listAuctions = /* GraphQL */ `
         buy
         minBid
         type
-        bidded
         createdAt
         updatedAt
         __typename
@@ -280,7 +283,6 @@ export const getAuctionUser = /* GraphQL */ `
         buy
         minBid
         type
-        bidded
         createdAt
         updatedAt
         __typename
