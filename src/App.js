@@ -40,12 +40,10 @@ export default function App() {
         query: createUser,
         variables: { input: data }
       }) : message.warning("User already exists");
-      isNewUser && setPlayerInfo(data)
-      isNewUser && setMoney(data.money)
       setCreatingUser(false);
     }, 1000)
     message.success("User successfully created");
-  }, [isNewUser, money])
+  }, [isNewUser])
 
   const currentAuthenticatedUser = useCallback(async () => {
     try {
@@ -73,7 +71,7 @@ export default function App() {
 
   useEffect(() => {
     !playerInfo && currentAuthenticatedUser()
-  }, [currentAuthenticatedUser, playerInfo])
+  }, [currentAuthenticatedUser, playerInfo, money])
 
   return (
     <BrowserRouter>
@@ -86,7 +84,7 @@ export default function App() {
                   <h3 onClick={() => console.log(playerInfo)}>Console</h3>
                   {playerInfo ? (
                     <CustomHeader  
-                      money={playerInfo.money}
+                      money={money}
                       username={playerInfo.nickname}
                     />
                   ) : null}

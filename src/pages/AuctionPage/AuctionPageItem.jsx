@@ -8,16 +8,8 @@ const getImageSource = (make, model) => {
     const imageName = `${make} ${model}.png`;
     return require(`../../assets/images/${imageName}`);
 };
-  
-function CardTitle(auction) {
-  return (
-      <Typography.Title className='carName'>{auction.make}&nbsp;{auction.model} </Typography.Title>
-  )
-}
-
 
 export default function AuctionPageItem({ auction, isSelected, index, handleItemClick }) {
-
     return (
         <Col className='auctionPageItem' span={24} style={{ height: '5%', width: '100%', display: 'flex' }} onClick={() => handleItemClick(auction)} >
             <Flex justify="space-between" align="flex-end" style={{width: "100%", paddingRight: "1vw", border: isSelected ? '2px solid #ff69b4' : 'none'}} >

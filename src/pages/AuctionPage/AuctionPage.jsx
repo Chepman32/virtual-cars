@@ -147,7 +147,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
   
       // Fetch auction user
       const auctionUser = await fetchAuctionUser(selectedAuction.id); // Corrected here
-  
+      console.log("auctionUser", auctionUser)
       // Calculate the money to be transferred
       const bidDifference =
         selectedAuction.lastBidPlayer === playerInfo.nickname
