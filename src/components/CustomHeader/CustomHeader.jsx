@@ -28,9 +28,9 @@ const CustomHeader = ({ username, money, signOut }) => {
       </div>
       <Menu.Item key="user">
         <Text style={{ marginRight: 15 }} type="warning">{`$${money}`}</Text>
-        <Text style={{color: "#fff"}} >{username}</Text>
+        <Text style={{ marginRight: "5vw", color: "#fff" }} >{username}</Text>
+        <Button onClick={handleSignOut}>Sign out</Button>
       </Menu.Item>
-      <Button onClick={handleSignOut}>Sign out</Button>
     </Menu>
   );
 };

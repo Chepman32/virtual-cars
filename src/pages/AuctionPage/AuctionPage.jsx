@@ -5,7 +5,7 @@ import { List, Form, Input, Button, Card, Col, Row, Typography, Flex, Select, me
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import { listAuctions as listAuctionsQuery } from '../../graphql/queries';
-import { addUserToAuction, calculateTimeDifference, createNewUserCar, fetchAuctionUser, fetchUserCarsRequest } from "../../functions";
+import { addUserToAuction, calculateTimeDifference, fetchUserBiddedList, fetchAuctionUser, fetchUserCarsRequest } from "../../functions";
 import AuctionPageItem from "./AuctionPageItem";
 import { SelectedAuctionDetails } from "./SelectedAuctionDetails";
 import AuctionActionsModal from "./AuctionActionsModal";
@@ -70,15 +70,39 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
 
   const increaseBid = async (auction) => {
     try {
+      const userBidded = await fetchUserBiddedList(playerInfo.id);
+      const isBidded = userBidded.some((ub) => ub.auctionId === auction.id);
+  
       setLoadingBid(true);
       let increasedBidValue = Math.floor(auction.currentBid * 1.1) || Math.round(auction.minBid * 1.1);
-      
+  
       if (increasedBidValue >= auction.buy) {
         buyItem();
         return;
       }
-      
-      setMoney(auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue);
+  
+      // Determine the last bid value for this auction
+      let lastBidValue = 0;
+      const lastBid = userBidded.find((ub) => ub.auctionId === auction.id);
+      if (lastBid) {
+        lastBidValue = lastBid.bidValue;
+      }
+  
+      // Calculate money decrease based on the last bid value
+      let moneyDecrease = increasedBidValue - lastBidValue;
+  
+      if (auction.lastBidPlayer === playerInfo.nickname) {
+        moneyDecrease = increasedBidValue - auction.currentBid;
+      }
+  
+      if (moneyDecrease > money) {
+        // Handle insufficient funds
+        console.log('Insufficient funds');
+        return;
+      }
+  
+      // Update user's money
+      setMoney(money - moneyDecrease);
   
       // Create a bid object with auction ID and bid value
       const bidObject = {
@@ -86,14 +110,20 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
         bidValue: increasedBidValue,
       };
   
-      // Update the user's bidded list
-      const updatedUser = {
-        id: playerInfo.id,
-        bidded: auction.bidded ? [...auction.bidded, bidObject] : [bidObject],
-        money: auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue,
-      };
+      // Update the user's bidded list by adding the new bid object
+      const updatedBiddedList = [...userBidded, bidObject];
+  
+      // Transform the updatedBiddedList into the format expected by the updateUser mutation
+      const bidInputs = updatedBiddedList.map(({ auctionId, bidValue }) => ({ auctionId, bidValue }));
   
       // Update the user data
+      const updatedUser = {
+        id: playerInfo.id,
+        money: money - moneyDecrease, // Deduct the money decrease
+        bidded: bidInputs,
+      };
+  
+      // Update the user data including the new bid object
       await client.graphql({
         query: mutations.updateUser,
         variables: {

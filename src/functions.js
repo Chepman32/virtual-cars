@@ -233,3 +233,20 @@ export const addUserToAuction = async (userId, auctionId) => {
     // Handle error or notify the user
   }
 };
+
+export const fetchUserBiddedList = async (userId) => {
+  try {
+    const userData = await client.graphql({
+      query: queries.getUser,
+      variables: {
+        id: userId,
+      },
+    });
+
+    const biddedAuctions = userData.data.getUser.bidded;
+    return biddedAuctions;
+  } catch (error) {
+    console.error("Error fetching user's bidded auctions:", error);
+    return [];
+  }
+};
