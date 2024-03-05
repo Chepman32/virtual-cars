@@ -39,9 +39,10 @@ export default function App() {
       isNewUser ? await client.graphql({
         query: createUser,
         variables: { input: data }
-      }) : console.log("User already exists");
+      }) : message.warning("User already exists");
       setCreatingUser(false);
     })
+    message.success("User successfully created");
   }, [isNewUser])
 
   const currentAuthenticatedUser = useCallback(async () => {
@@ -65,7 +66,7 @@ export default function App() {
     } catch (err) {
       console.log(err);
     }
-  } ,[createNewPlayer])
+  } ,[createNewPlayer, playerInfo])
   
 
   useEffect(() => {
