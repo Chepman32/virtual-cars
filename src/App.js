@@ -81,7 +81,6 @@ export default function App() {
             <>
               {nickname !== null && (
                 <main >
-                  <h3 onClick={() => console.log(playerInfo)}>Console</h3>
                   {playerInfo ? (
                     <CustomHeader  
                       money={money}
