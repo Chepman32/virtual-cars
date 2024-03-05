@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Menu, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import "./styles.css"
@@ -6,6 +6,7 @@ import "./styles.css"
 const { Text } = Typography;
 
 const CustomHeader = ({ username, money, signOut }) => {
+  const [signOutBtn, setSignOutBtn] = useState(false)
   const navigate = useNavigate();
   const handleSignOut = () => {
     navigate("/")
@@ -13,8 +14,8 @@ const CustomHeader = ({ username, money, signOut }) => {
   }
   return (
     <Menu theme="dark" mode="horizontal" style={{ width: "100%", lineHeight: '64px', display: 'flex' }}>
-      <div style={{ width: "100%", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: "center" }}>
+      <div style={{ width: "100%", display: 'flex', justifyContent: "space-between", alignItems: "center" }} className='customHeader' >
+        <section style={{ display: 'flex', justifyContent: 'flex-start', alignItems: "center" }}>
           <Menu.Item key="carsStore" style={{ backgroundColor: 'transparent' }}>
             <Link to="/carsStore">Cars Store</Link>
           </Menu.Item>
@@ -24,12 +25,14 @@ const CustomHeader = ({ username, money, signOut }) => {
           <Menu.Item key="auctionsHub" style={{ backgroundColor: 'transparent' }}>
             <Link to="/auctionsHub">Auctions</Link>
           </Menu.Item>
-        </div>
+        </section>
       </div>
-      <Menu.Item key="user">
+      <Menu.Item key="user" onClick={() => setSignOutBtn(!signOutBtn)} >
         <Text style={{ marginRight: 15 }} type="warning">{`$${money}`}</Text>
         <Text style={{ marginRight: "5vw", color: "#fff" }} >{username}</Text>
-        <Button onClick={handleSignOut}>Sign out</Button>
+        {
+          signOutBtn && <Button onClick={handleSignOut} className='signOutBtn' >Sign out</Button>
+        }
       </Menu.Item>
     </Menu>
   );

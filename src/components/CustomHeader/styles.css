@@ -1,0 +1,9 @@
+.customHeader {
+    position: relative;
+}
+
+.signOutBtn {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+}

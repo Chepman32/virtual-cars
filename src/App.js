@@ -39,10 +39,9 @@ export default function App() {
       isNewUser ? await client.graphql({
         query: createUser,
         variables: { input: data }
-      }) : message.warning("User already exists");
+      }) : console.log("User already exists");
       setCreatingUser(false);
     })
-    message.success("User successfully created");
   }, [isNewUser])
 
   const currentAuthenticatedUser = useCallback(async () => {
