@@ -13,7 +13,7 @@ const client = generateClient();
 
 const MyCars = ({ playerInfo, setMoney, money }) => {
   const [cars, setCars] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [newAuctionvisible, setNewAuctionVisible] = useState(false);
   const [auctionDuration, setAuctionDuration] = useState(1);
   const [minBid, setMinBid] = useState(0);
@@ -26,7 +26,9 @@ const MyCars = ({ playerInfo, setMoney, money }) => {
   const [form] = Form.useForm();
   useEffect(() => {
     async function fetchUserCars() {
+      setLoading(true)
       setCars(await fetchUserCarsRequest(playerInfo.id))
+      setLoading(false)
     }
     fetchUserCars()
   }, [playerInfo.id, loadingNewAuction]);
@@ -100,7 +102,7 @@ const MyCars = ({ playerInfo, setMoney, money }) => {
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: "wrap" }}>
         {cars && cars.length ? cars.map((car) => (
           <CarCard
-          key={car.car.id}
+          key={car.car.id + Math.random()}
             selectedCar={selectedCar}
             setSelectedCar={setSelectedCar}
             showCarDetailsModal={showCarDetailsModal}

@@ -8,3 +8,7 @@
     right: 50px;
     z-index: 1000;
 }
+
+.ant-menu-item-selected {
+    background-color: transparent !important;
+  }

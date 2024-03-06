@@ -10,7 +10,7 @@ export default function CarCard({ selectedCar, setSelectedCar, showCarDetailsMod
               setSelectedCar(car)
               showCarDetailsModal()
             }}
-            className={selectedCar && selectedCar.id === car.id ? "carsPage__item carsPage__item_selected" : "carsPage__item"}
+            className={selectedCar?.id === car.id ? "carsPage__item carsPage__item_selected" : "carsPage__item"}
           >
             <Flex style={{ textAlign: 'center' }} align="center">
               <h3 className="carsPage__model">{car.model} &nbsp;</h3>
