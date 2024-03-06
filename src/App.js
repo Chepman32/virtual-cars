@@ -169,8 +169,6 @@ export default function App() {
 
                 </main>
               )}
-
-              <button onClick={signOut}>Sign out</button>   
             </>
           )}
         </Authenticator>

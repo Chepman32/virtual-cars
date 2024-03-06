@@ -72,7 +72,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     try {
       const userBidded = await fetchUserBiddedList(playerInfo.id);
       const isBidded = userBidded.some((ub) => ub.auctionId === auction.id);
-  
+      console.log(isBidded)
       setLoadingBid(true);
       let increasedBidValue = Math.floor(auction.currentBid * 1.1) || Math.round(auction.minBid * 1.1);
   
@@ -81,28 +81,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
         return;
       }
   
-      // Determine the last bid value for this auction
-      let lastBidValue = 0;
-      const lastBid = userBidded.find((ub) => ub.auctionId === auction.id);
-      if (lastBid) {
-        lastBidValue = lastBid.bidValue;
-      }
-  
-      // Calculate money decrease based on the last bid value
-      let moneyDecrease = increasedBidValue - lastBidValue;
-  
-      if (auction.lastBidPlayer === playerInfo.nickname) {
-        moneyDecrease = increasedBidValue - auction.currentBid;
-      }
-  
-      if (moneyDecrease > money) {
-        // Handle insufficient funds
-        console.log('Insufficient funds');
-        return;
-      }
-  
-      // Update user's money
-      setMoney(money - moneyDecrease);
+      setMoney(auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue);
   
       // Create a bid object with auction ID and bid value
       const bidObject = {
@@ -119,7 +98,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
       // Update the user data
       const updatedUser = {
         id: playerInfo.id,
-        money: money - moneyDecrease, // Deduct the money decrease
+        money: auction.lastBidPlayer === playerInfo.nickname ? money - (increasedBidValue - auction.currentBid) : money - increasedBidValue,
         bidded: bidInputs,
       };
   
