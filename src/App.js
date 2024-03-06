@@ -41,8 +41,9 @@ export default function App() {
         variables: { input: data }
       }) : console.log("User already exists");
       setCreatingUser(false);
-      window.location.reload(false);
     })
+    sessionStorage.setItem("signedInCars", "true")
+    sessionStorage.getItem("signedInCars") !== "true" && window.location.reload(false);
   }, [isNewUser])
 
   const currentAuthenticatedUser = useCallback(async () => {
