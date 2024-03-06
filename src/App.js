@@ -41,6 +41,7 @@ export default function App() {
         variables: { input: data }
       }) : console.log("User already exists");
       setCreatingUser(false);
+      window.location.reload(false);
     })
   }, [isNewUser])
 
