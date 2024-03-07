@@ -6,12 +6,12 @@ import { getCarTypeColor } from '../../functions';
 export default function CarCard({ selectedCar, setSelectedCar, showCarDetailsModal, car, getImageSource }) {
   return (
     <div
-            onClick={() => {
-              setSelectedCar(car)
-              showCarDetailsModal()
-            }}
-            className={selectedCar?.id === car.id ? "carsPage__item carsPage__item_selected" : "carsPage__item"}
-          >
+    onClick={() => {
+        setSelectedCar(car); // Set the selected car
+        showCarDetailsModal();
+    }}
+    className={selectedCar?.id === car.id ? "carsPage__item carsPage__item_selected" : "carsPage__item"}>
+
             <Flex style={{ textAlign: 'center' }} align="center">
               <h3 className="carsPage__model">{car.model} &nbsp;</h3>
               <h3 className="carsPage__year">{car.year}</h3>

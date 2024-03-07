@@ -1,6 +1,6 @@
 .carsPage__item {
-    width: 20vw; /* Adjust the width to desired value */
-    height: 20vw; /* Set the height to match the width */
+    width: 19vw; /* Adjust the width to desired value */
+    height: 19vw; /* Set the height to match the width */
     display: flex;
     padding: .3vh;
     flex-direction: column;
