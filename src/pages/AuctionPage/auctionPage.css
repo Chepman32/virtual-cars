@@ -166,3 +166,8 @@
 .auction-items-container::-webkit-scrollbar-thumb:hover {
   background: #e40303;
 }
+
+.activeCard {
+  border: .2rem solid red;
+  border-radius: 15px;
+}

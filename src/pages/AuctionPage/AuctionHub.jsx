@@ -6,6 +6,7 @@ import AuctionHubMyBids from "./AuctionHubCards/AuctionHubMyBids";
 import AuctionHubMyAuctions from "./AuctionHubCards/AuctionHubMyAuctions";
 import AuctionHubStart from "./AuctionHubCards/AuctionHubStart";
 import AuctionHubSearch from "./AuctionHubCards/AuctionHubSearch";
+import { playSwitchSound } from "../../functions";
 
 export default function AuctionsHub() {
   const [focusedTile, setFocusedTile] = useState("search");
@@ -13,17 +14,21 @@ export default function AuctionsHub() {
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === "ArrowRight" && focusedTile === "search") {
+        playSwitchSound();
         setFocusedTile("start");
       } else if (event.key === "ArrowLeft" && focusedTile !== "search") {
+        playSwitchSound();
         setFocusedTile("search");
-      } else if (event.key === "ArrowDown") {
+      } else if (event.key === "ArrowDown" && focusedTile !== "search" && focusedTile !== "myauctions") {
         setFocusedTile((prevTile) =>
           prevTile === "start" ? "mybids" : prevTile === "mybids" ? "myauctions" : prevTile === "myauctions" ? "myauctions" : prevTile
         );
-      } else if (event.key === "ArrowUp") {
+        playSwitchSound();
+      } else if (event.key === "ArrowUp" && focusedTile !== "search" && focusedTile !== "start") {
         setFocusedTile((prevTile) =>
           prevTile === "myauctions" ? "mybids" : prevTile === "mybids" ? "start" : prevTile
         );
+        playSwitchSound();
       }
     },
     [focusedTile]
@@ -38,8 +43,7 @@ export default function AuctionsHub() {
 
   return (
     <div className="auctionsHub" onKeyDown={handleKeyDown} tabIndex={0}>
-      <h3 onClick={() => console.log(focusedTile)}>focused</h3>
-      <Row style={{ height: "90vh", margin: "0", padding: "20px", boxSizing: "border-box" }}>
+      <Row style={{ height: "90vh", margin: "0", boxSizing: "border-box" }}>
         <AuctionHubSearch focused={focusedTile === "search"} />
         <Col span={12} style={{ height: "100%" }}>
           <AuctionHubStart focused={focusedTile === "start"} />

@@ -17,12 +17,11 @@ export default function AuctionHubStart({ focused, onClick }) {
             justifyContent: 'center',
             backgroundColor: "#2d24b3",
             color: "#fff",
-            border: focused ? '3px solid red' : 'none', // Apply red border if focused
           }}
           onMouseOver={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onClick={onClick} // Call the onClick function when clicked
-          className={hovered ? "auctionHub__card" : "auctionHub__card auctionHub__card_hovered"}
+          className={focused ? "activeCard" : ""}
         >
           <Typography.Text className="auctionHub__cardText">
             Start auction

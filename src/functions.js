@@ -1,6 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import * as queries from './graphql/queries'
 import * as mutations from './graphql/mutations'
+import SwitchSound from "./assets/audio/light-switch-156813.mp3"
 
 const client = generateClient();
 
@@ -250,3 +251,9 @@ export const fetchUserBiddedList = async (userId) => {
     return [];
   }
 };
+
+export const playSwitchSound = () => {
+  const audio = new Audio(SwitchSound);
+  audio.volume = 0.08
+    audio.play();
+}

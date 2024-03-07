@@ -7,14 +7,14 @@ export default function AuctionHubSearch({focused}) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <Col span={12} style={{ height: '100%', border: focused ? "1px solid red" : "none" }}>
-                  <Link to="/auctions">
-                  <Card style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: "url(https://www.gtplanet.net/wp-content/uploads/2023/12/Forza-Horizon-5-Playlist-Cars.jpg)", backgroundRepeat: "no-repeat", objectFit: "cover" }}>
-                  <Typography.Text className="auctionHub__cardText">
-                  Search auctions
-            </Typography.Text>
+    <Col span={12} style={{ height: '100%' }} className={focused ? "activeCard" : ""} >
+      <Link to="/auctions">
+        <Card style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: `url(${BackImage})`, backgroundSize: "cover", objectFit: "cover" }}>
+          <Typography.Text className="auctionHub__cardText">
+            Search auctions
+          </Typography.Text>
         </Card>
       </Link>
-      </Col>
+    </Col>
   )
 }
