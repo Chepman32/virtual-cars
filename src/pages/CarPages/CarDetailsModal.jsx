@@ -13,36 +13,40 @@ const CarDetailsModal = ({
   forAuction,
   showNewAuction,
 }) => {
-  const [focusedRow, setFocusedRow] = useState(1); // Track the focused row index
+  const [focusedRow, setFocusedRow] = useState(0);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       const { key } = event;
-      const numRows = forAuction ? 5 : 4; // Adjust the number of rows based on the condition
-      if (key === "ArrowUp") {
-        setFocusedRow((prevRow) => (prevRow === 0 ? numRows - 1 : prevRow - 1)); // Move focus up
-      } else if (key === "ArrowDown") {
-        setFocusedRow((prevRow) => (prevRow === numRows - 1 ? 0 : prevRow + 1)); // Move focus down
-      } else if (key === "Enter") {
-        // Call handler function for selected row on Enter press
-        switch (focusedRow) {
-          case 0:
-            !forAuction ? buyCar(selectedCar) : console.log("")
-            break;
-          case 2:
-            showNewAuction();
-            break;
-          default:
-            break;
+      const numRows = forAuction ? 5 : 4;
+      if (visible) {
+        if (key === "ArrowUp") {
+          setFocusedRow((prevRow) => (prevRow === 0 ? numRows - 1 : prevRow - 1));
+        } else if (key === "ArrowDown") {
+          setFocusedRow((prevRow) => (prevRow === numRows - 1 ? 0 : prevRow + 1));
+        } else if (key === "Enter") {
+          switch (focusedRow) {
+            case 0:
+              !forAuction && buyCar(selectedCar);
+              break;
+            case 2:
+              showNewAuction();
+              break;
+            default:
+              break;
+          }
         }
+      } else {
+        // Reset focusedRow when the modal is closed
+        setFocusedRow(0);
       }
     };
-    !visible && setFocusedRow(1)
+  
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [focusedRow, selectedCar, buyCar, showNewAuction, forAuction, visible]);
+  }, [visible, focusedRow, selectedCar, buyCar, showNewAuction, forAuction]);
   
   return (
     <Modal
