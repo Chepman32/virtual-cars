@@ -11,7 +11,7 @@ import NewAuctionModal from "../AuctionPage/NewAuctionModal";
 
 const client = generateClient();
 
-const MyCars = ({ playerInfo, setMoney, money }) => {
+const MyCars = ({ playerInfo }) => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newAuctionvisible, setNewAuctionVisible] = useState(false);
@@ -40,6 +40,34 @@ const MyCars = ({ playerInfo, setMoney, money }) => {
     }
     fetchUserCars();
   }, [playerInfo.id, loadingNewAuction]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const { key } = event;
+      const carsCount = cars.length;
+      if (key === "ArrowRight" && !carDetailsVisible && !newAuctionvisible) {
+        playSwitchSound();
+        setSelectedCarIndex((prevIndex) => (prevIndex + 1) % carsCount);
+      } else if (key === "ArrowLeft" && !carDetailsVisible && !newAuctionvisible) {
+        playSwitchSound();
+        setSelectedCarIndex((prevIndex) => (prevIndex - 1 + carsCount) % carsCount);
+      } else if (key === "ArrowDown" && !carDetailsVisible && !newAuctionvisible) {
+        playSwitchSound();
+        setSelectedCarIndex((prevIndex) => (prevIndex + 5) % carsCount); // Move down by 5 cars
+      } else if (key === "ArrowUp" && !carDetailsVisible && !newAuctionvisible) {
+        playSwitchSound();
+        setSelectedCarIndex((prevIndex) => (prevIndex - 5 + carsCount) % carsCount); // Move up by 5 cars
+      } else if (key === "Enter" && !carDetailsVisible && !newAuctionvisible) {
+        setSelectedCar(cars[selectedCarIndex]);
+        showCarDetailsModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [cars, selectedCarIndex, carDetailsVisible, newAuctionvisible]);
 
   const createNewAuction = async () => {
     const auctionDurationSeconds = auctionDuration * 60 * 60;
@@ -101,30 +129,6 @@ const MyCars = ({ playerInfo, setMoney, money }) => {
     return require(`../../assets/images/${imageName}`);
   };
 
-  const handleKeyDown = (event) => {
-    const { key } = event;
-    const carsCount = cars.length;
-    if (key === "ArrowRight") {
-      playSwitchSound()
-      setSelectedCarIndex((prevIndex) => (prevIndex + 1) % carsCount);
-    } else if (key === "ArrowLeft") {
-      playSwitchSound()
-      setSelectedCarIndex((prevIndex) => (prevIndex - 1 + carsCount) % carsCount);
-    } else if (key === "ArrowDown") {
-      playSwitchSound()
-      setSelectedCarIndex((prevIndex) => (prevIndex + 5) % carsCount); // Move down by 5 cars
-    } else if (key === "ArrowUp") {
-      playSwitchSound()
-      setSelectedCarIndex((prevIndex) => (prevIndex - 5 + carsCount) % carsCount); // Move up by 5 cars
-    }
-  };  
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [cars]);
-
   return (
     <div style={{ padding: '20px' }}>
       {loading ? (
@@ -182,8 +186,6 @@ const MyCars = ({ playerInfo, setMoney, money }) => {
       )}
     </div>
   );
-
 };
-
 
 export default MyCars;

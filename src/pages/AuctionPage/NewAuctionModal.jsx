@@ -18,7 +18,7 @@ export default function NewAuctionModal({ visible, handleCancel, handleOk, selec
     >
       <Form form={form} layout="vertical">
         <Form.Item name="minBid" label="Minimal bid" rules={[{ required: true }]}>
-          <Input type="number" defaultValue={0} value={minBid} onChange={(event) => setMinBid(event.target.value)} />
+          <Input type="number" defaultValue={selectedCar.price / 25} value={minBid} onChange={(event) => setMinBid(event.target.value >= selectedCar.price / 25 ? event.target.value : selectedCar.minBid)} />
         </Form.Item>
         <Form.Item name="buy" label="Buy" rules={[{ required: true }]}>
           <Input type="number" defaultValue={selectedCar.price} value={selectedCar.price} onChange={(event) => setBuy(event.target.value)} disabled />

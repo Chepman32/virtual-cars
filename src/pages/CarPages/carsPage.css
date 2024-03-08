@@ -56,3 +56,13 @@
     font-size: 2vh;
     font-weight: 600;
 }
+
+.carDetailsModal__row {
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .carDetailsModal__row.selected {
+    border: 2px solid red;
+  }
+  
