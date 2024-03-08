@@ -9,7 +9,7 @@ import { calculateTimeDifference, fetchUserCarsRequest } from "../../functions";
 import AuctionPageItem from "./AuctionPageItem";
 import { SelectedAuctionDetails } from "./SelectedAuctionDetails";
 import AuctionActionsModal from "./AuctionActionsModal";
-import NewAuctionModal from "./NewAuctionModal";
+import NewAuctionModal from "../CarPages/NewAuctionModal";
 
 const { Option } = Select;
 const client = generateClient();

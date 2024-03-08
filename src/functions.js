@@ -257,3 +257,37 @@ export const playSwitchSound = () => {
   audio.volume = 0.08
     audio.play();
 }
+
+export const getCarPriceByIdFromUserCar = async (userId, carId) => {
+  try {
+    const userData = await client.graphql({
+      query: `
+        query GetUserCar($userId: ID!, $carId: ID!) {
+          getUser(id: $userId) {
+            cars(filter: {carId: {eq: $carId}}) {
+              items {
+                car {
+                  price
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        userId,
+        carId
+      },
+    });
+
+    const carData = userData.data.getUser.cars.items[0];
+    if (carData && carData.car) {
+      return carData.car.price;
+    } else {
+      throw new Error("Car not found in user's cars");
+    }
+  } catch (error) {
+    console.error("Error fetching car price:", error);
+    throw error;
+  }
+}

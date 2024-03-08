@@ -7,7 +7,7 @@ import "./carsPage.css";
 import CarDetailsModal from "./CarDetailsModal";
 import CarCard from "./CarCard";
 import { fetchUserCarsRequest, getUserCar, deleteUserCar, createNewAuctionUser, playSwitchSound } from "../../functions";
-import NewAuctionModal from "../AuctionPage/NewAuctionModal";
+import NewAuctionModal from "./NewAuctionModal";
 
 const client = generateClient();
 

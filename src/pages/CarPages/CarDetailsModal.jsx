@@ -13,15 +13,16 @@ const CarDetailsModal = ({
   forAuction,
   showNewAuction,
 }) => {
-  const [focusedRow, setFocusedRow] = useState(0);
+  const [focusedRow, setFocusedRow] = useState(0); // Initial focus is on the first row
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       const { key } = event;
       const numRows = forAuction ? 5 : 4;
+
       if (visible) {
         if (key === "ArrowUp") {
-          setFocusedRow((prevRow) => (prevRow === 0 ? numRows - 1 : prevRow - 1));
+          setFocusedRow((prevRow) => (prevRow === 0 ? numRows - 1 : prevRow - 1)); // When on the first row and up key is pressed, focus goes to the last row
         } else if (key === "ArrowDown") {
           setFocusedRow((prevRow) => (prevRow === numRows - 1 ? 0 : prevRow + 1));
         } else if (key === "Enter") {
@@ -38,16 +39,17 @@ const CarDetailsModal = ({
         }
       } else {
         // Reset focusedRow when the modal is closed
-        setFocusedRow(0);
+        setFocusedRow(0); // Focus is set to the first row when the modal is closed
       }
     };
-  
+
     document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [visible, focusedRow, selectedCar, buyCar, showNewAuction, forAuction]);
-  
+
   return (
     <Modal
       centered
@@ -65,12 +67,7 @@ const CarDetailsModal = ({
           selected={focusedRow === 0}
         />
       )}
-
-      <CarDetailsModalRow
-        text="Add to favorites"
-        selected={focusedRow === 1}
-      />
-
+      <CarDetailsModalRow text="Add to favorites" selected={focusedRow === 0} />
       {forAuction && (
         <CarDetailsModalRow
           handler={showNewAuction}
@@ -78,7 +75,6 @@ const CarDetailsModal = ({
           selected={focusedRow === 2}
         />
       )}
-
       <CarDetailsModalRow text="Row 4" selected={focusedRow === 3} />
       <CarDetailsModalRow text="Row 5" selected={focusedRow === 4} />
     </Modal>
