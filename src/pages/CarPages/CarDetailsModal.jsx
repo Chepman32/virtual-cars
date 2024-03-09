@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Spin } from "antd";
 import "./carsPage.css";
 import CarDetailsModalRow from "./CarDetailsModalRow";
+import { playSwitchSound } from "../../functions";
 
 const CarDetailsModal = ({
   visible,
@@ -22,22 +23,22 @@ const CarDetailsModal = ({
 
       if (visible) {
         if (key === "ArrowUp") {
+          playSwitchSound()
           setFocusedRow((prevRow) => (prevRow === 0 ? totalRows - 1 : prevRow - 1)); // Adjust the logic for ArrowUp key
         } else if (key === "ArrowDown") {
+          playSwitchSound()
           setFocusedRow((prevRow) => (prevRow === totalRows - 1 ? 0 : prevRow + 1)); // Adjust the logic for ArrowDown key
         } else if (key === "Enter") {
           switch (focusedRow) {
             case 0:
+              if (forAuction) {
+                showNewAuction();
+              }
               if (!forAuction) {
                 buyCar(selectedCar);
               }
               break;
             case 1:
-              if (forAuction) {
-                showNewAuction();
-              } else {
-                // Add to favorites functionality goes here
-              }
               break;
             case 2:
               // Row 2 functionality goes here
@@ -75,7 +76,6 @@ const CarDetailsModal = ({
       onCancel={handleCancel}
       footer={null}
     >
-      <h3 onClick={() => console.log("focusedRow", focusedRow)}>focusedRow</h3>
       {!forAuction && (
         <CarDetailsModalRow
           handler={() => buyCar(selectedCar)}

@@ -1,7 +1,9 @@
 import { generateClient } from "aws-amplify/api";
 import * as queries from './graphql/queries'
 import * as mutations from './graphql/mutations'
-import SwitchSound from "./assets/audio/light-switch-156813.mp3"
+import SwitchSound from "./assets/audio/light-switch.mp3"
+import OpeningSound from "./assets/audio/opening.MP3"
+import ClosingSound from "./assets/audio/closing.MP3"
 
 const client = generateClient();
 
@@ -33,6 +35,22 @@ export const fetchUserCarsRequest = async (id) => {
     return userData.data.getUser.cars.items
   } catch (error) {
     console.error("Error fetching user's cars:", error);
+  }
+}
+
+export const fetchAuctionCreator = async (auctionId) => {
+  try {
+    const auctionUserData = await fetchAuctionUser(auctionId);
+    
+    if (!auctionUserData) {
+      // Auction user not found
+      return null;
+    }
+    
+    return auctionUserData;
+  } catch (error) {
+    console.error("Error fetching auction creator:", error);
+    throw error;
   }
 }
 
@@ -252,12 +270,6 @@ export const fetchUserBiddedList = async (userId) => {
   }
 };
 
-export const playSwitchSound = () => {
-  const audio = new Audio(SwitchSound);
-  audio.volume = 0.08
-    audio.play();
-}
-
 export const getCarPriceByIdFromUserCar = async (userId, carId) => {
   try {
     const userData = await client.graphql({
@@ -290,4 +302,19 @@ export const getCarPriceByIdFromUserCar = async (userId, carId) => {
     console.error("Error fetching car price:", error);
     throw error;
   }
+}
+
+export const playSwitchSound = () => {
+  const audio = new Audio(SwitchSound);
+    audio.play();
+}
+
+export const playOpeningSound = () => {
+  const audio = new Audio(OpeningSound);
+    audio.play();
+}
+
+export const playClosingSound = () => {
+  const audio = new Audio(ClosingSound);
+    audio.play();
 }

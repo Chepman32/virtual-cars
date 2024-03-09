@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, Col, Row, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./auctionPage.css";
 import AuctionHubMyBids from "./AuctionHubCards/AuctionHubMyBids";
 import AuctionHubMyAuctions from "./AuctionHubCards/AuctionHubMyAuctions";
 import AuctionHubStart from "./AuctionHubCards/AuctionHubStart";
 import AuctionHubSearch from "./AuctionHubCards/AuctionHubSearch";
-import { playSwitchSound } from "../../functions";
+import { playOpeningSound, playSwitchSound } from "../../functions";
 
 export default function AuctionsHub() {
   const [focusedTile, setFocusedTile] = useState("search");
 
+  const navigate = useNavigate();
+
   const handleKeyDown = useCallback(
     (event) => {
+      const { key } = event
       if (event.key === "ArrowRight" && focusedTile === "search") {
         playSwitchSound();
         setFocusedTile("start");
@@ -29,6 +32,25 @@ export default function AuctionsHub() {
           prevTile === "myauctions" ? "mybids" : prevTile === "mybids" ? "start" : prevTile
         );
         playSwitchSound();
+      }
+      else if (key === "Enter") {
+        playOpeningSound()
+        switch (focusedTile) {
+          case "search":
+            navigate("/auctions")
+            break;
+          case "start":
+            navigate("/myCars")
+            break;
+          case "mybids":
+            navigate("/myBids")
+            break;
+          case "myauctions":
+            navigate("/myAuctions")
+            break;
+          default:
+            break;
+        }
       }
     },
     [focusedTile]

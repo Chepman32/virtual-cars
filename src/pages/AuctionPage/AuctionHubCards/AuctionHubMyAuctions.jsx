@@ -10,7 +10,7 @@ export default function AuctionHubMyAuctions({focused}) {
                   <Row style={{ height: '25%' }}>
         <Card
           style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          className={focused ? "activeCard" : ""}
+          className={focused ? "activeCard" : "hubCard"}
         >
           <Typography.Text className=" auctionHub__cardText_black">
           My auctions

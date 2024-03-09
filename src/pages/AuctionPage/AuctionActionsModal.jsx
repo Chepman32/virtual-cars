@@ -2,8 +2,11 @@
 import React from "react";
 import { Modal, Spin } from "antd";
 import "./auctionPage.css";
+import { fetchAuctionCreator } from "../../functions";
+import { useNavigate } from "react-router-dom";
 
 const AuctionActionsModal = ({ visible, handleAuctionActionsCancel, selectedAuction, loadingBid, bid, buyCar, loadingBuy }) => {
+  const navigate = useNavigate()
   return (
     <Modal
       centered
@@ -20,7 +23,7 @@ const AuctionActionsModal = ({ visible, handleAuctionActionsCancel, selectedAuct
       <div className="auctionActionsModal__row" onClick={() => bid(selectedAuction)}>
         {loadingBid ? <Spin /> : "Make a bid"}
       </div>
-      <div className="auctionActionsModal__row">Row 4</div>
+      <div className="auctionActionsModal__row" onClick={async () => console.log(await fetchAuctionCreator(selectedAuction.id))} >Row 4</div>
       <div className="auctionActionsModal__row" onClick={handleAuctionActionsCancel} >Row 5</div>
     </Modal>
   );

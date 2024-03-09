@@ -5,7 +5,7 @@ import { List, Form, Input, Button, Card, Col, Row, Typography, Flex, Select, me
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from '../../graphql/mutations';
 import { listAuctions as listAuctionsQuery } from '../../graphql/queries';
-import { addUserToAuction, calculateTimeDifference, fetchUserBiddedList, fetchAuctionUser, fetchUserCarsRequest } from "../../functions";
+import { addUserToAuction, calculateTimeDifference, fetchUserBiddedList, fetchAuctionUser, fetchUserCarsRequest, playOpeningSound, playSwitchSound, playClosingSound } from "../../functions";
 import AuctionPageItem from "./AuctionPageItem";
 import { SelectedAuctionDetails } from "./SelectedAuctionDetails";
 import AuctionActionsModal from "./AuctionActionsModal";
@@ -206,28 +206,28 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
       setAuctionActionsVisible(false)
     }
   };
-  
-  const listener = async (data) => {
-    const { nickname } = data?.payload?.data;
-    setPlayer(nickname);
-  };
 
   useEffect(() => {
     listAuctions();
-    Hub.listen('auth', listener);
   }, [listAuctions]);
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp") {
+      playSwitchSound()
       setSelectedAuction((prevAuction) => {
         const newIndex = auctions.indexOf(prevAuction) - 1;
         return newIndex >= 0 ? auctions[newIndex] : prevAuction;
       });
     } else if (e.key === "ArrowDown") {
+      playSwitchSound()
       setSelectedAuction((prevAuction) => {
         const newIndex = auctions.indexOf(prevAuction) + 1;
         return newIndex < auctions.length ? auctions[newIndex] : prevAuction;
       });
+    }
+    else if (e.key === "Enter") {
+      setAuctionActionsVisible(true)
+      playOpeningSound()
     }
   };
 
@@ -264,7 +264,10 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
       <SelectedAuctionDetails selectedAuction={selectedAuction} />
       <AuctionActionsModal
         visible={auctionActionsVisible}
-        handleAuctionActionsCancel={handleAuctionActionsCancel}
+        handleAuctionActionsCancel={() => {
+          playClosingSound()
+          handleAuctionActionsCancel()
+        }}
         selectedAuction={selectedAuction}
         bid={increaseBid}
         loadingBid={loadingBid}

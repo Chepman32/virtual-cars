@@ -19,7 +19,7 @@ export default function AuctionHubMyBids({ focused, onClick }) {
           onMouseOver={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onClick={onClick} // Call the onClick function when clicked
-          className={focused ? "activeCard" : ""}
+          className={focused ? "activeCard" : "hubCard"}
         >
           <Typography.Text className="auctionHub__cardText_black">
             My bids

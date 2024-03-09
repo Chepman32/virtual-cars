@@ -1,17 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form, message, Typography, Spin } from "antd";
 import { generateClient } from 'aws-amplify/api';
-import { listCars as listCarsQuery } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
-import "./carsPage.css";
-import CarDetailsModal from "./CarDetailsModal";
-import CarCard from "./CarCard";
 import { fetchUserCarsRequest, getUserCar, deleteUserCar, createNewAuctionUser, playSwitchSound, playOpeningSound, playClosingSound } from "../../functions";
-import NewAuctionModal from "./NewAuctionModal";
 
 const client = generateClient();
 
-const MyCars = ({ playerInfo }) => {
+const UserPage = ({ playerInfo }) => {
  const [cars, setCars] = useState([]);
  const [loading, setLoading] = useState(true);
  const [newAuctionvisible, setNewAuctionVisible] = useState(false);
@@ -136,70 +131,9 @@ const MyCars = ({ playerInfo }) => {
 
  return (
    <div style={{ padding: '20px' }}>
-     {loading ? (
-       <Spin size="large" fullscreen />
-     ) : cars && cars.length ? (
-       <div
-         style={{ width: "100%", display: 'flex', flexDirection: 'row', flexWrap: "wrap" }}
-         ref={carsContainerRef}
-       >
-         {cars.map((car, index) => (
-           <CarCard
-             key={car.car.id + Math.random()}
-             selectedCar={index === selectedCarIndex ? car.car : null}
-             setSelectedCar={(car) => {
-               setSelectedCar(car)
-               setSelectedCarIndex(index)
-               showCarDetailsModal()
-             }}
-             showCarDetailsModal={showCarDetailsModal}
-             car={car.car}
-             getImageSource={getImageSource}
-           />
-         ))}
-       </div>
-     ) : (
-       <Typography.Title>You have no cars</Typography.Title>
-     )}
-     <CarDetailsModal
-       visible={carDetailsVisible && selectedCar !== null}
-       handleCancel={() => {
-        cancelNewAuction()
-        setCarDetailsVisible(false);
-        playClosingSound()
-     }}
-       setSelectedCar={car => setSelectedCar(car)}
-       selectedCar={selectedCar}
-       loadingNewAuction={loadingNewAuction}
-       forAuction
-       showNewAuction={() => {
-         handleCarDetailsCancel()
-         playSwitchSound()
-         setNewAuctionVisible(true)
-       }}
-     />
-     {newAuctionvisible && selectedCar && (
-       <NewAuctionModal
-         visible={newAuctionvisible}
-         handleCancel={() => {
-          playSwitchSound()
-          cancelNewAuction()
-         }}
-         handleOk={createNewAuction}
-         form={form}
-         minBid={minBid}
-         setMinBid={setMinBid}
-         buy={buy}
-         setBuy={setBuy}
-         auctionDuration={auctionDuration}
-         setAuctionDuration={setAuctionDuration}
-         userCars={cars}
-         setSelectedCar={setSelectedCar}
-         selectedCar={selectedCar}
-       />
-     )}
+     
    </div>
  );
 };
 
-export default MyCars;
+export default UserPage;

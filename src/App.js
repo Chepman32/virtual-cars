@@ -18,6 +18,7 @@ import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import AuctionsHub from "./pages/AuctionPage/AuctionHub";
 import MyBids from "./pages/AuctionPage/MyBids";
 import MyAuctions from "./pages/AuctionPage/MyAuctions";
+import UserPage from "./pages/UserPage/UserPage";
 
 const client = generateClient(); 
 Amplify.configure(awsExports);
@@ -160,6 +161,12 @@ export default function App() {
                           money={money} 
                           setMoney={setMoney}
                         />
+                      }  
+                        />
+                        <Route
+                      path="/userPage"
+                      element={
+                        <UserPage/>
                       }  
                         />
                       </Routes>
