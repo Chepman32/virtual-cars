@@ -143,7 +143,6 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     try {
       setLoadingBuy(true);
       const updatedBiddedList = selectedAuction.bidded ? [...selectedAuction.bidded, playerInfo.nickname] : [playerInfo.nickname];
-      const increasedBidValue = Math.round(selectedAuction.currentBid * 1.1) || Math.round(selectedAuction.minBid * 1.1);
       // Update the auction item to reflect the purchase
       const updatedAuctionInput = {
         id: selectedAuction.id,
