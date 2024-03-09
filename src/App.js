@@ -164,7 +164,7 @@ export default function App() {
                       }  
                         />
                         <Route
-                      path="/userPage"
+                      path="/userPage/:id"
                       element={
                         <UserPage/>
                       }  

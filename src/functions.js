@@ -54,6 +54,22 @@ export const fetchAuctionCreator = async (auctionId) => {
   }
 }
 
+export const fetchUserInfoById = async (userId) => {
+  try {
+    const userData = await client.graphql({
+      query: queries.getUser,
+      variables: {
+        id: userId
+      },
+    });
+
+    return userData.data.getUser;
+  } catch (error) {
+    console.error("Error fetching user information:", error);
+    throw error;
+  }
+}
+
 export const getCarTypeColor = (carType) => {
   switch (carType) {
     case "regular":

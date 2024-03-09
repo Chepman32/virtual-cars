@@ -23,7 +23,11 @@ const AuctionActionsModal = ({ visible, handleAuctionActionsCancel, selectedAuct
       <div className="auctionActionsModal__row" onClick={() => bid(selectedAuction)}>
         {loadingBid ? <Spin /> : "Make a bid"}
       </div>
-      <div className="auctionActionsModal__row" onClick={async () => console.log(await fetchAuctionCreator(selectedAuction.id))} >Row 4</div>
+      <div className="auctionActionsModal__row" onClick={async () => {
+        const user = await fetchAuctionCreator(selectedAuction.id)
+        const { id } = user
+        navigate(`/userPage/${id}`)
+      }} >Row 4</div>
       <div className="auctionActionsModal__row" onClick={handleAuctionActionsCancel} >Row 5</div>
     </Modal>
   );
