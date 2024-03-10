@@ -15,7 +15,7 @@ const CarDetailsModal = ({
   showNewAuction,
 }) => {
   const totalRows = 4
-  const [focusedRow, setFocusedRow] = useState(0); // Initial focus is on the first row
+  const [focusedRow, setFocusedRow] = useState(0);
 
   useEffect(() => {
     const handleKeyDown = (event) => {

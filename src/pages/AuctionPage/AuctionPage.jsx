@@ -211,33 +211,34 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
     listAuctions();
   }, [listAuctions]);
 
-  const handleKeyDown = (e) => {
-    if (e.key === "ArrowUp") {
-      playSwitchSound()
-      setSelectedAuction((prevAuction) => {
-        const newIndex = auctions.indexOf(prevAuction) - 1;
-        return newIndex >= 0 ? auctions[newIndex] : prevAuction;
-      });
-    } else if (e.key === "ArrowDown") {
-      playSwitchSound()
-      setSelectedAuction((prevAuction) => {
-        const newIndex = auctions.indexOf(prevAuction) + 1;
-        return newIndex < auctions.length ? auctions[newIndex] : prevAuction;
-      });
-    }
-    else if (e.key === "Enter") {
-      setAuctionActionsVisible(true)
-      playOpeningSound()
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!auctionActionsVisible) {
+        if (e.key === "ArrowUp") {
+          playSwitchSound();
+          setSelectedAuction((prevAuction) => {
+            const newIndex = auctions.indexOf(prevAuction) - 1;
+            return newIndex >= 0 ? auctions[newIndex] : prevAuction;
+          });
+        } else if (e.key === "ArrowDown") {
+          playSwitchSound();
+          setSelectedAuction((prevAuction) => {
+            const newIndex = auctions.indexOf(prevAuction) + 1;
+            return newIndex < auctions.length ? auctions[newIndex] : prevAuction;
+          });
+        } else if (e.key === "Enter") {
+          setAuctionActionsVisible(true);
+          playOpeningSound();
+        }
+      }
+    };
+  
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [auctions]);
-
+  }, [auctions, auctionActionsVisible]);
+  
   const handleItemClick = (clickedAuction) => {
     setSelectedAuction(clickedAuction);
     handleAuctionActionsShow();

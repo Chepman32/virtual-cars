@@ -83,8 +83,6 @@
     font-weight: 600;
   }
 
-  /* auctionPage.css */
-
 .auctionHub__card:hover {
   border: 2px solid red;
 }

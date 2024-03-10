@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Menu, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import "./styles.css"
+import { playSwitchSound } from '../../functions';
 
 const { Text } = Typography;
 
@@ -27,7 +28,10 @@ const CustomHeader = ({ username, money, signOut }) => {
           </Menu.Item>
         </section>
       </div>
-      <Menu.Item key="user" onClick={() => setSignOutBtn(!signOutBtn)} onKeyDown={null} >
+      <Menu.Item key="user" onClick={() => {
+        playSwitchSound()
+        setSignOutBtn(!signOutBtn)
+      }} onKeyDown={null} >
         <Text style={{ marginRight: 15 }} type="warning">{`$${money}`}</Text>
         <Text style={{ marginRight: "5vw", color: "#fff" }} >{username}</Text>
         {

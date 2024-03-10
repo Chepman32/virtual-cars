@@ -101,7 +101,7 @@ const MyCars = ({ playerInfo }) => {
      const createdAuctionId = result?.data?.createAuction?.id;
      if (createdAuctionId) {
        const createdAuctionUser = await createNewAuctionUser(playerInfo.id, createdAuctionId);
-       console.log('Created auction user:', createdAuctionUser);
+       playSwitchSound()
        message.success('Auction created successfully!');
      } else {
        throw new Error('Failed to retrieve the ID of the created auction.');
