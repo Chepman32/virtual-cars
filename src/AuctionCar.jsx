@@ -1,7 +1,7 @@
 // Inside the Car component
 import { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { updatePlayer } from '../graphql/mutations';
+import { updatePlayer } from './graphql/mutations';
 
 export const AuctionCar = ({ car, user }) => {
   const [buying, setBuying] = useState(false);
