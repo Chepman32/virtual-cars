@@ -12,8 +12,8 @@ export default function Subscription() {
                 }
             ],
             mode: "subscription",
-            successUrl: "http://localhost:3000/",
-            cancelUrl: "http://localhost:3000//cancel"
+            successUrl: "http://localhost:3000/successfulPayment",
+            cancelUrl: "http://localhost:3000/paymentError"
         })
     }
   return (

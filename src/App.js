@@ -21,6 +21,7 @@ import MyBids from "./pages/AuctionPage/MyBids";
 import MyAuctions from "./pages/AuctionPage/MyAuctions";
 import SuccessfulPayment from "./components/SuccessfulPayment"
 import Subscription from "./components/Subscription/Subscription"
+import PaymentError from "./components/PaymentError";
 
 const client = generateClient(); 
 Amplify.configure(awsExports);
@@ -164,12 +165,12 @@ export default function App() {
                       }  
                         />
                         <Route
-                      path="/subscription"
-                      element={<Subscription/>}  
+                      path="/successfulPayment"
+                      element={<SuccessfulPayment/>}
                         />
                         <Route
-                      path="/successfulPayment"
-                      element={<SuccessfulPayment/>}  
+                      path="/paymentError"
+                      element={<PaymentError/>}
                         />
                       </Routes>
                       :
