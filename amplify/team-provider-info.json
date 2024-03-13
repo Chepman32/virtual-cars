@@ -21,7 +21,7 @@
       "function": {
         "processPayment": {
           "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
-          "s3Key": "amplify-builds/processPayment-6b502b386e5934343945-build.zip"
+          "s3Key": "amplify-builds/processPayment-585258642b4f542f6d46-build.zip"
         }
       }
     }
