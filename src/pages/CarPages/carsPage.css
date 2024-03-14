@@ -1,3 +1,11 @@
+.cars {
+    padding: 20px;
+}
+.cars__container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
 .carsPage__item {
     width: 19vw; /* Adjust the width to desired value */
     height: 19vw; /* Set the height to match the width */
@@ -14,6 +22,12 @@
 
 .carsPage__item_selected {
     border: 4px solid rgb(217, 81, 81);
+}
+
+.carsPage__item__image {
+    max-width: 100%;
+    max-height: 50%;
+    border-radius: 10px;
 }
 
 .carsPage__model {
@@ -66,3 +80,30 @@
     border: 2px solid red;
   }
   
+  @media(max-width: 375px) {
+    .cars {
+        padding: 0;
+    }
+
+    .cars__container {
+        max-width: 374px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+   .carsPage__item {
+    width: 95%;
+    height: 30%;
+   }
+
+   .carsPage__item__image {
+    max-height: 80vw;
+   }
+}
+
+@media(max-width: 1600px) {
+    .carsPage__item {
+        width: 23vw;
+        height: 23vw;
+       }
+}

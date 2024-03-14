@@ -144,14 +144,14 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
  };
 
  return (
-   <div style={{ padding: '20px' }}>
+   <div className="cars">
      <Button type="primary" onClick={showModal} style={{ marginBottom: '20px' }}>
        Create New Car
      </Button>
      {carsLoading ? (
        <Spin size="large" fullscreen/>
      ) : (
-       <div style={{ width: "100%", display: 'flex', flexDirection: 'row', flexWrap: "wrap" }} ref={carsContainerRef}>
+       <div ref={carsContainerRef} className="cars__container" >
          {cars.length && cars.map((car, index) => (
            <CarCard
              key={car.id + Math.random()}

@@ -1,12 +1,13 @@
 import { Flex } from 'antd'
 import React from 'react'
 import "./carsPage.css";
-import { getCarTypeColor } from '../../functions';
+import { getCarTypeColor, playOpeningSound } from '../../functions';
 
 export default function CarCard({ selectedCar, setSelectedCar, showCarDetailsModal, car, getImageSource }) {
   return (
     <div
-    onClick={() => {
+      onClick={() => {
+        playOpeningSound()
         setSelectedCar(car); // Set the selected car
         showCarDetailsModal();
     }}
@@ -20,7 +21,7 @@ export default function CarCard({ selectedCar, setSelectedCar, showCarDetailsMod
             <img
               src={getImageSource(car.make, car.model)}
               alt={`${car.make} ${car.model}`}
-              style={{ maxWidth: '100%', maxHeight: '50%', borderRadius: '10px' }}
+        className='carsPage__item__image'
             />
             <p>{car.price}</p>
             <div className="carsPage__type" style={{background: getCarTypeColor(car.type)}} >
