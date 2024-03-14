@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Button, Modal, Form, Input, message, Select, Typography } from "antd";
+import { Button, Modal, Form, Input, message, Select, Typography, Spin } from "antd";
 import { generateClient } from 'aws-amplify/api';
 import { listCars as listCarsQuery } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
@@ -19,6 +19,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
  const [form] = Form.useForm();
  const [carDetailsVisible, setCarDetailsVisible] = useState(false);
  const [selectedCarIndex, setSelectedCarIndex] = useState(0);
+ const [carsLoading, setCarsLoading] = useState(true);
 
  const carsContainerRef = useRef(null);
 
@@ -28,14 +29,16 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
      setCars(carData.data.listCars.items);
    } catch (error) {
      console.error("Error fetching cars:", error);
+   } finally {
+     setCarsLoading(false);
    }
  }, []);
 
  useEffect(() => {
    async function fetchAllCars() {
-     await fetchCars()
+     await fetchCars();
    }
-   fetchAllCars()
+   fetchAllCars();
  }, [fetchCars]);
 
  useEffect(() => {
@@ -43,19 +46,22 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
      const { key } = event;
      const carsCount = cars.length;
      if (key === "ArrowRight" && !carDetailsVisible) {
+      playSwitchSound()
        setSelectedCarIndex((prevIndex) => (prevIndex + 1) % carsCount);
      } else if (key === "ArrowLeft" && !carDetailsVisible) {
+      playSwitchSound()
        setSelectedCarIndex((prevIndex) => (prevIndex - 1 + carsCount) % carsCount);
      } else if (key === "ArrowDown" && !carDetailsVisible) {
+      playSwitchSound()
        setSelectedCarIndex((prevIndex) => (prevIndex + 5) % carsCount); // Move down by 5 cars
      } else if (key === "ArrowUp" && !carDetailsVisible) {
+      playSwitchSound()
        setSelectedCarIndex((prevIndex) => (prevIndex - 5 + carsCount) % carsCount); // Move up by 5 cars
      } else if (key === "Enter" && !carDetailsVisible) {
        setSelectedCar(cars[selectedCarIndex]);
-       playOpeningSound()
+       playOpeningSound();
        showCarDetailsModal();
      }
-     key !== "Enter" && playSwitchSound()
    };
 
    document.addEventListener("keydown", handleKeyDown);
@@ -66,7 +72,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
 
  const buyCar = async (car) => {
    if (playerInfo && playerInfo.id) {
-     playSwitchSound()
+     playSwitchSound();
      setMoney(money - car.price);
      try {
        setLoadingBuy(true);
@@ -82,7 +88,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
        });
 
        // Create a new user-car association
-       createNewUserCar(playerInfo.id, car.id)
+       createNewUserCar(playerInfo.id, car.id);
 
        message.success('Car successfully bought!');
      } catch (err) {
@@ -95,8 +101,8 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
    }
  };
 
-  const showModal = () => {
-   playOpeningSound()
+ const showModal = () => {
+   playOpeningSound();
    setVisible(true);
  };
 
@@ -104,13 +110,13 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
    setCarDetailsVisible(true);
  };
 
-  const handleCancel = () => {
-   playClosingSound()
+ const handleCancel = () => {
+   playClosingSound();
    setVisible(false);
  };
 
-  const handleCarDetailsCancel = () => {
-   playClosingSound()
+ const handleCarDetailsCancel = () => {
+   playClosingSound();
    setCarDetailsVisible(false);
  };
 
@@ -142,22 +148,26 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
      <Button type="primary" onClick={showModal} style={{ marginBottom: '20px' }}>
        Create New Car
      </Button>
-     <div style={{ width: "100%", display: 'flex', flexDirection: 'row', flexWrap: "wrap" }} ref={carsContainerRef}>
-       {cars.length && cars.map((car, index) => (
-         <CarCard
-           key={car.id + Math.random()}
-           selectedCar={index === selectedCarIndex ? car : null}
-           setSelectedCar={(car) => {
-             setSelectedCar(car)
-             setSelectedCarIndex(index)
-             showCarDetailsModal()
-           }}
-           showCarDetailsModal={showCarDetailsModal}
-           car={car}
-           getImageSource={getImageSource}
-         />
-       ))}
-     </div>
+     {carsLoading ? (
+       <Spin size="large" fullscreen/>
+     ) : (
+       <div style={{ width: "100%", display: 'flex', flexDirection: 'row', flexWrap: "wrap" }} ref={carsContainerRef}>
+         {cars.length && cars.map((car, index) => (
+           <CarCard
+             key={car.id + Math.random()}
+             selectedCar={index === selectedCarIndex ? car : null}
+             setSelectedCar={(car) => {
+               setSelectedCar(car)
+               setSelectedCarIndex(index)
+               showCarDetailsModal()
+             }}
+             showCarDetailsModal={showCarDetailsModal}
+             car={car}
+             getImageSource={getImageSource}
+           />
+         ))}
+       </div>
+     )}
 
      <Modal
        visible={visible}

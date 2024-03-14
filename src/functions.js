@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import * as queries from './graphql/queries'
 import * as mutations from './graphql/mutations'
-import SwitchSound from "./assets/audio/light-switch.mp3"
+import SwitchSound from "./assets/audio/light-switch.MP3"
 import OpeningSound from "./assets/audio/opening.MP3"
 import ClosingSound from "./assets/audio/closing.MP3"
 
