@@ -19,9 +19,9 @@
         "virtualcars": {}
       },
       "function": {
-        "processPayment": {
+        "eventTest": {
           "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
-          "s3Key": "amplify-builds/processPayment-585258642b4f542f6d46-build.zip"
+          "s3Key": "amplify-builds/eventTest-55786c5856424f797532-build.zip"
         }
       }
     }

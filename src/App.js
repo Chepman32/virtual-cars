@@ -43,10 +43,6 @@ export default function App() {
       const user = playersList.find((u) => u.nickname === username);
       const isNewUser = !playersList.some((pl) => pl.nickname === username)
       setIsNewUser(isNewUser)
-      !user && createNewPlayer(username)
-      console.log("isNewUser", isNewUser)
-      console.log("userId", userId)
-      console.log("user", user.id)
       setPlayerInfo(user);
       setMoney(user.money)
     } catch (err) {
@@ -166,7 +162,7 @@ export default function App() {
                         />
                         <Route
                       path="/successfulPayment"
-                      element={<SuccessfulPayment/>}
+                      element={<SuccessfulPayment playerInfo={playerInfo}/>}
                         />
                         <Route
                       path="/paymentError"

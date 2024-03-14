@@ -51,26 +51,36 @@
     }
   },
   "function": {
-    "processPayment": {
+    "eventTest": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "virtualcars"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_processPayment_deploymentBucketName": {
+    "AMPLIFY_function_eventTest_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "processPayment"
+          "resourceName": "eventTest"
         }
       ]
     },
-    "AMPLIFY_function_processPayment_s3Key": {
+    "AMPLIFY_function_eventTest_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "processPayment"
+          "resourceName": "eventTest"
         }
       ]
     }
