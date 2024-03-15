@@ -20,8 +20,8 @@ const CustomHeader = ({ username, money, signOut }) => {
             }
         ],
         mode: "payment",
-        https://stripe.d2snuxs4quclku.amplifyapp.com/successfulPayment",
-        https://stripe.d2snuxs4quclku.amplifyapp.com/paymentError"
+        successUrl: "https://stripe.d2snuxs4quclku.amplifyapp.com/successfulPayment",
+        cancelUrl: "https://stripe.d2snuxs4quclku.amplifyapp.com/paymentError",
     })
   }
   
