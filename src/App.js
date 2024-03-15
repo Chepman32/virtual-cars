@@ -10,7 +10,7 @@ import { Hub } from "aws-amplify/utils";
 import { generateClient } from "aws-amplify/api";
 import { listUsers } from "./graphql/queries";
 import { createUser } from "./graphql/mutations";
-import { Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import CarsStore from "./pages/CarPages/CarsStore";
 import MyCars from "./pages/CarPages/MyCars";
@@ -75,7 +75,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       {!creatingUser && ( 
         <Authenticator>
           {({ signOut, user }) => (  
@@ -183,7 +183,7 @@ export default function App() {
       )}
 
       {creatingUser && <Spin />}
-    </BrowserRouter>
+      </HashRouter>
   );
 
 }
