@@ -21,7 +21,7 @@
       "function": {
         "eventTest": {
           "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
-          "s3Key": "amplify-builds/eventTest-55786c5856424f797532-build.zip"
+          "s3Key": "amplify-builds/eventTest-327a3168496a5544506f-build.zip"
         }
       }
     }
