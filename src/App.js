@@ -53,6 +53,7 @@ export default function App() {
 
   useEffect(() => {
     currentAuthenticatedUser()
+    document.title = "Virtual cars"
   }, [])
 
   async function createNewPlayer(username) {
