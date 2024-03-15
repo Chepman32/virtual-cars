@@ -35,7 +35,7 @@ const CustomHeader = ({ username, money, signOut }) => {
       <div style={{ width: "100%", display: 'flex', justifyContent: "space-between", alignItems: "center" }} className='customHeader' >
         <section style={{ display: 'flex', justifyContent: 'flex-start', alignItems: "center" }}>
           <Menu.Item key="carsStore" style={{ backgroundColor: 'transparent' }}>
-            <Link to="/carsStore">Cars Store</Link>
+            <Link to="/paymentError">paymentError</Link>
           </Menu.Item>
           <Menu.Item key="myCars" style={{ backgroundColor: 'transparent' }}>
             <Link to="/myCars">My Cars</Link>
