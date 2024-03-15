@@ -15,11 +15,11 @@ const CustomHeader = ({ username, money, signOut }) => {
     const { error } = stripe.redirectToCheckout({
         lineItems: [
             {
-                price: "price_1OtAwe2LvNyg7BqIuwxpSKSj",
+                price: "price_1OuUeB2LvNyg7BqIAOlfUhY8",
                 quantity: 1,
             }
         ],
-        mode: "subscription",
+        mode: "payment",
         successUrl: "http://localhost:3000/successfulPayment",
         cancelUrl: "http://localhost:3000/paymentError"
     })
