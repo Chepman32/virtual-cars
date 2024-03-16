@@ -5,9 +5,10 @@ exports.handler = async (event) => {
   // Check if the event type is a successful payment
   if (stripeEvent.type === 'payment_intent.succeeded') {
       // Log success message to the console
-      console.log("Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success");
       
-      // Return a successful response to Stripe
+      
+    // Return a successful response to Stripe
+    console.log("Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success Success");
       return {
           statusCode: 200,
           body: JSON.stringify({ received: true })
