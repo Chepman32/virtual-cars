@@ -26,7 +26,7 @@
         },
         "handlePayment": {
           "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
-          "s3Key": "amplify-builds/handlePayment-4c4e3061634139684b6c-build.zip"
+          "s3Key": "amplify-builds/handlePayment-392f487a497a72397555-build.zip"
         }
       }
     }
