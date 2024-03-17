@@ -41,7 +41,7 @@ const CustomHeader = ({ username, money, signOut }) => {
             <Link to="/myCars">My Cars</Link>
           </Menu.Item>
           <Menu.Item key="auctionsHub" style={{ backgroundColor: 'transparent' }}>
-            <Link to="/auctionsHub">Auctions</Link>
+            <Link to="/successfulPayment">Auctions</Link>
           </Menu.Item>
         </section>
       </div>

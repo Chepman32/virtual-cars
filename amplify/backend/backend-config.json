@@ -1,5 +1,19 @@
 {
   "api": {
+    "stripeTest": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "handlePayment"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "virtualcars": {
       "dependsOn": [],
       "output": {
@@ -65,6 +79,11 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "handlePayment": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -81,6 +100,22 @@
         {
           "category": "function",
           "resourceName": "eventTest"
+        }
+      ]
+    },
+    "AMPLIFY_function_handlePayment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handlePayment"
+        }
+      ]
+    },
+    "AMPLIFY_function_handlePayment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handlePayment"
         }
       ]
     }

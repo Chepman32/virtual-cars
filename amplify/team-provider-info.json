@@ -16,12 +16,17 @@
         "virtualcars631d26f7": {}
       },
       "api": {
-        "virtualcars": {}
+        "virtualcars": {},
+        "stripeTest": {}
       },
       "function": {
         "eventTest": {
           "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
           "s3Key": "amplify-builds/eventTest-2f43336c57637149366d-build.zip"
+        },
+        "handlePayment": {
+          "deploymentBucketName": "amplify-virtualcars-dev-142931-deployment",
+          "s3Key": "amplify-builds/handlePayment-4776636b746c44574f61-build.zip"
         }
       }
     }
