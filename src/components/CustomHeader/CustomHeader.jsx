@@ -11,7 +11,8 @@ const CustomHeader = ({ username, money, signOut }) => {
   const [signOutBtn, setSignOutBtn] = useState(false)
   
   const handleClick = async e => {
-    const stripe = await loadStripe("sk_test_51OslC72LvNyg7BqILAn7JelKzm19RuHftQw68VNtKAwybM66gaLHCylS4LpXY8nnsLYKmRYPkDm1ECsr0HA0gYWk00EOHGjELe")
+    try {
+      const stripe = await loadStripe("pk_test_51OslC72LvNyg7BqIEX3L73IkI1M9q66jxwtbHyXJrCZo12k3HdIrpbxdN0Bmyc0cBmZqWsibK5jBZ3PKc1kfnTaV00RDnn21cC")
     const { error } = stripe.redirectToCheckout({
         lineItems: [
             {
@@ -23,6 +24,10 @@ const CustomHeader = ({ username, money, signOut }) => {
         successUrl: "https://stripe.d2snuxs4quclku.amplifyapp.com/successfulPayment",
         cancelUrl: "https://stripe.d2snuxs4quclku.amplifyapp.com/paymentError",
     })
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
   
   const navigate = useNavigate();
