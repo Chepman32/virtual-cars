@@ -75,7 +75,7 @@ export default function App() {
   }
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       {!creatingUser && ( 
         <Authenticator>
           {({ signOut, user }) => (  
@@ -183,7 +183,7 @@ export default function App() {
       )}
 
       {creatingUser && <Spin />}
-      </HashRouter>
+      </BrowserRouter>
   );
 
 }
