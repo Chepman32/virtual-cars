@@ -76,114 +76,73 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      {!creatingUser && ( 
+      {!creatingUser && (
         <Authenticator>
-          {({ signOut, user }) => (  
+          {({ user }) => (
             <>
               {nickname !== null && (
-                <main >
+                <main>
                   {playerInfo ? (
-                    <CustomHeader  
+                    <CustomHeader
                       money={money}
                       username={playerInfo.nickname}
                     />
                   ) : null}
-                  {
-                    playerInfo
-                      ?
-                      <Routes>
-                    <Route 
-                      path="/carsStore"  
-                      element={
-                        <CarsStore
-                          playerInfo={playerInfo}
-                          money={money}
-                          setMoney={setMoney}  
-                        />
-                      }
-                    />
-
-                    <Route
-                      path="/auctions"
-                      element={
-                        <AuctionPage
-                          playerInfo={playerInfo}
-                          money={money} 
-                          setMoney={setMoney}
-                        />
-                        
-                      }  
-                        />
-                        <Route
-                      path="/myCars"
-                      element={
-                        <MyCars
-                          playerInfo={playerInfo}
-                          money={money} 
-                          setMoney={setMoney}
-                        />
-                        
-                      }  
-                        />
-                        <Route
-                      path="/auctionsHub"
-                      element={
-                        <AuctionsHub/>
-                      }  
-                        />
-                        <Route
-                      path="/auctions"
-                      element={
-                        <AuctionPage
-                          playerInfo={playerInfo}
-                          money={money} 
-                          setMoney={setMoney}
-                        />
-                      }
-                        />
-                        <Route
-                      path="/myBids"
-                      element={
-                        <MyBids
-                          playerInfo={playerInfo}
-                          money={money} 
-                          setMoney={setMoney}
-                        />
-                      }  
-                        />
-                        <Route
-                      path="/myAuctions"
-                      element={
-                        <MyAuctions
-                          playerInfo={playerInfo}
-                          money={money} 
-                          setMoney={setMoney}
-                        />
-                      }  
-                        />
-                        <Route
-                      path="/successfulPayment"
-                      element={<SuccessfulPayment playerInfo={playerInfo}/>}
-                        />
-                        <Route
-                      path="/paymentError"
-                      element={<PaymentError/>}
-                        />
-                      </Routes>
-                      :
-                      <Spin />
-                  }
-
+                  {playerInfo ? (
+                    <Routes>
+                      <Route
+                        path="/carsStore"
+                        element={
+                          <CarsStore
+                            playerInfo={playerInfo}
+                            money={money}
+                            setMoney={setMoney}
+                          />
+                        }
+                      />
+                      <Route
+                        path="/auctions"
+                        element={
+                          <AuctionPage
+                            playerInfo={playerInfo}
+                            money={money}
+                            setMoney={setMoney}
+                          />
+                        }
+                      />
+                      <Route
+                        path="/myCars"
+                        element={
+                          <MyCars
+                            playerInfo={playerInfo}
+                            money={money}
+                            setMoney={setMoney}
+                          />
+                        }
+                      />
+                      <Route path="/auctionsHub" element={<AuctionsHub />} />
+                      <Route path="/myBids" element={<MyBids />} />
+                      <Route
+                        path="/myAuctions"
+                        element={<MyAuctions />}
+                      />
+                      <Route
+                        path="/successfulPayment"
+                        element={<SuccessfulPayment playerInfo={playerInfo} />}
+                      />
+                      <Route path="/paymentError" element={<PaymentError />} />
+                    </Routes>
+                  ) : (
+                    <Spin />
+                  )}
                 </main>
               )}
-
             </>
           )}
         </Authenticator>
       )}
-
       {creatingUser && <Spin />}
-      </BrowserRouter>
+    </BrowserRouter>
   );
 
 }
